@@ -2,11 +2,8 @@ import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PersonaModule } from './persona/persona.module';
-import { IdiomaModule } from './idioma/idioma.module';
-import { PaisModule } from './pais/pais.module';
-import { DetalleModule } from './detalle/detalle.module';
-import { PreferenciaModule } from './preferencia/preferencia.module';
+import { ConversacionesModule } from './conversaciones/conversaciones.module';
+import { MensajesModule } from './mensajes/mensajes.module';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -17,13 +14,10 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     ObserveModule.forRoot({
       appKey: 'YOUR_APP_KEY',
       appSecret: 'YOUR_APP_SECRET',
-      serviceId: 'gestion-perfiles',
+      serviceId: 'gestion-conversaciones',
     }),
-    PersonaModule,
-    IdiomaModule,
-    PaisModule,
-    DetalleModule,
-    PreferenciaModule,
+    ConversacionesModule,
+    MensajesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
