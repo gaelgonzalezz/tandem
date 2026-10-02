@@ -1,0 +1,47 @@
+@startuml
+
+class Persona {
+    nombre: String
+    apellido: String
+    alias: String
+    email: String
+    paisResidencia: String
+    estado: boolean
+    idiomasHabla: Idioma[]
+    idiomasHablaNivel: String[]
+    idiomasAprende: Idioma[]
+    idiomasAprendeNivel: String[]
+    permisoConversacion: String
+    conversacionesActivasPermitidas: number
+    noMolestar: boolean
+    bloqueados: Persona[]
+}
+
+class Pais {
+    nombre: String
+}
+
+class Idioma {
+    nombre: String
+    nivel: String
+    alias: String
+}
+
+class Detalle {
+    nivel: String
+}
+
+class Preferencia {
+    permisoConversacion: String
+    conversacionesActivasPermitidas: number
+    noMolestar: boolean
+    bloqueados: Persona[]
+}
+
+Persona -> Persona
+Persona --> Pais
+Persona --> Detalle
+Persona --> Preferencia
+Detalle --> Idioma
+
+@enduml
