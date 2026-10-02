@@ -19,12 +19,13 @@ class Pais {
 
 class Idioma {
     nombre: String
-    nivel: String
     alias: String
 }
 
 class Detalle {
     nivel: String
+    personaId: number
+    idiomaId: number
 }
 
 class Preferencia {

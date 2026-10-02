@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateIdiomaDto } from './dto/create-idioma.dto';
-import { UpdateIdiomaDto } from './dto/update-idioma.dto';
 import { Idioma } from './entities/idioma.entity';
 
 @Injectable()

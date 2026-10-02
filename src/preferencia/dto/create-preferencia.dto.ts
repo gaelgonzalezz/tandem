@@ -1,8 +1,7 @@
-import { Persona } from "../../persona/entities/persona.entity"
-
 export class CreatePreferenciaDto {
+    personaId: number;
     permisoConversacion: String;
     conversacionesActivasPermitidas: number;
     noMolestar: boolean;
-    bloqueados: Persona[];
+    bloqueados: number[];
 }

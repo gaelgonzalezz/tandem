@@ -1,18 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDetalleDto } from './dto/create-detalle.dto';
 import { UpdateDetalleDto } from './dto/update-detalle.dto';
 import { Detalle } from './entities/detalle.entity';
+import { PersonaService } from '../persona/persona.service';
+import { IdiomaService } from '../idioma/idioma.service';
 
 @Injectable()
 export class DetalleService {
+  constructor(
+    @Inject(forwardRef(() => PersonaService))
+    private readonly personaService: PersonaService,
+    private readonly idiomaService: IdiomaService,
+  ) {}
 
   detalles: Detalle[] = [];
 
   create(createDetalleDto: CreateDetalleDto) {
     const newDetalle = new Detalle();
+    const personaId = this.personaService.findOne(createDetalleDto.personaId);
+    const idiomaId = this.idiomaService.findOne(createDetalleDto.idiomaId);
 
     newDetalle.id = Math.floor(Math.random() * 1000);
     newDetalle.nivel = createDetalleDto.nivel;
+    newDetalle.persona = personaId;
+    newDetalle.idioma = idiomaId;
 
     this.detalles.push(newDetalle);
 
@@ -36,7 +47,16 @@ export class DetalleService {
     if (updateDetalleDto.nivel) {
       detalle.nivel = updateDetalleDto.nivel;
     }
-    return detalle;
+    
+    if (updateDetalleDto.personaId) {
+      const personaId = this.personaService.findOne(updateDetalleDto.personaId);
+      detalle.persona = personaId;
+    }
+
+    if (updateDetalleDto.idiomaId) {
+      const idiomaId = this.idiomaService.findOne(updateDetalleDto.idiomaId);
+      detalle.idioma = idiomaId;
+    }
   }
 
   remove(id: number) {

@@ -1,15 +1,15 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { PaisService } from './pais.service';
-import { CreatePaiDto } from './dto/create-pais.dto';
-import { UpdatePaiDto } from './dto/update-pais.dto';
+import { CreatePaisDto } from './dto/create-pais.dto';
+import { UpdatePaisDto } from './dto/update-pais.dto';
 
 @Controller('pais')
 export class PaisController {
   constructor(private readonly paisService: PaisService) {}
 
   @Post()
-  create(@Body() createPaiDto: CreatePaiDto) {
-    return this.paisService.create(createPaiDto);
+  create(@Body() createPaisDto: CreatePaisDto) {
+    return this.paisService.create(createPaisDto);
   }
 
   @Get()
@@ -23,8 +23,8 @@ export class PaisController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePaiDto: UpdatePaiDto) {
-    return this.paisService.update(+id, updatePaiDto);
+  update(@Param('id') id: string, @Body() updatePaisDto: UpdatePaisDto) {
+    return this.paisService.update(+id, updatePaisDto);
   }
 
   @Delete(':id')

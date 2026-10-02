@@ -2,16 +2,25 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePreferenciaDto } from './dto/create-preferencia.dto';
 import { UpdatePreferenciaDto } from './dto/update-preferencia.dto';
 import { Preferencia } from './entities/preferencia.entity';
+import { PersonaService } from '../persona/persona.service';
 
 @Injectable()
 export class PreferenciaService {
+
+  constructor(private readonly personaService: PersonaService) {}
 
   preferencias: Preferencia[] = [];
 
   create(createPreferenciaDto: CreatePreferenciaDto) {
     const newPreferencia = new Preferencia();
 
+    const persona = this.personaService.findOne(createPreferenciaDto.personaId);
+    if (!persona) {
+      throw new NotFoundException(`Persona with id ${createPreferenciaDto.personaId} not found`);
+    }
+
     newPreferencia.id = Math.floor(Math.random() * 1000);
+    newPreferencia.persona = persona;
     newPreferencia.permisoConversacion = createPreferenciaDto.permisoConversacion;
     newPreferencia.conversacionesActivasPermitidas = createPreferenciaDto.conversacionesActivasPermitidas;
     newPreferencia.noMolestar = createPreferenciaDto.noMolestar;
@@ -38,7 +47,7 @@ export class PreferenciaService {
     if(updatePreferenciaDto.permisoConversacion){
       preferencia.permisoConversacion = updatePreferenciaDto.permisoConversacion;
     }
-    if(updatePreferenciaDto.conversacionesActivasPermitidas){
+    if(updatePreferenciaDto.conversacionesActivasPermitidas !== undefined){
       preferencia.conversacionesActivasPermitidas = updatePreferenciaDto.conversacionesActivasPermitidas;
     }
     if(updatePreferenciaDto.noMolestar){

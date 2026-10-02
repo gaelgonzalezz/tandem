@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePersonaDto } from './dto/create-persona.dto';
 import { UpdatePersonaDto } from './dto/update-persona.dto';
 import { Persona } from './entities/persona.entity';
@@ -8,7 +8,12 @@ import { DetalleService } from '../detalle/detalle.service';
 
 @Injectable()
 export class PersonaService {
-  constructor(private readonly paisService: PaisService, private readonly idiomaService: IdiomaService, private readonly detalleService: DetalleService) {}
+  constructor(
+    private readonly paisService: PaisService,
+    private readonly idiomaService: IdiomaService,
+    @Inject(forwardRef(() => DetalleService))
+    private readonly detalleService: DetalleService,
+  ) {}
 
   personas: Persona[] = [];
 
