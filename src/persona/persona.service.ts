@@ -3,21 +3,23 @@ import { CreatePersonaDto } from './dto/create-persona.dto';
 import { UpdatePersonaDto } from './dto/update-persona.dto';
 import { Persona } from './entities/persona.entity';
 import { PaisService } from '../pais/pais.service';
+import { IdiomaService } from '../idioma/idioma.service';
+import { DetalleService } from '../detalle/detalle.service';
 
 @Injectable()
 export class PersonaService {
-  constructor(private readonly paisService: PaisService) {}
+  constructor(private readonly paisService: PaisService, private readonly idiomaService: IdiomaService, private readonly detalleService: DetalleService) {}
 
   personas: Persona[] = [];
 
   create(createPersonaDto: CreatePersonaDto) {
     const newPersona = new Persona();
 
-    const paisResidencia = this.paisService.findOne(createPersonaDto.paisResidencia.id);
-    const idiomasHabla = createPersonaDto.idiomasHabla.map((idioma) => idioma.id);
-    const idiomasHablaNivel = createPersonaDto.idiomasHablaNivel.map((nivel) => nivel);
-    const idiomasAprende = createPersonaDto.idiomasAprende.map((idioma) => idioma.id);
-    const idiomasAprendeNivel = createPersonaDto.idiomasAprendeNivel.map((nivel) => nivel);
+    const paisResidencia = this.paisService.findOne(createPersonaDto.paisResidencia);
+    const idiomasHabla = createPersonaDto.idiomasHabla.map((idiomaId) => this.idiomaService.findOne(idiomaId));
+    const idiomasHablaNivel = createPersonaDto.idiomasHablaNivel.map((detalleId) => this.detalleService.findOne(detalleId));
+    const idiomasAprende = createPersonaDto.idiomasAprende.map((idiomaId) => this.idiomaService.findOne(idiomaId));
+    const idiomasAprendeNivel = createPersonaDto.idiomasAprendeNivel.map((detalleId) => this.detalleService.findOne(detalleId));
 
     newPersona.id = Math.floor(Math.random() * 1000);
     newPersona.nombre = createPersonaDto.nombre;
@@ -67,7 +69,8 @@ export class PersonaService {
     }
 
     if(updatePersonaDto.paisResidencia){
-      persona.paisResidencia = updatePersonaDto.paisResidencia;
+      const paisResidencia = this.paisService.findOne(updatePersonaDto.paisResidencia);
+      persona.paisResidencia = paisResidencia;
     }
 
     if(updatePersonaDto.estado !== undefined){
@@ -75,11 +78,22 @@ export class PersonaService {
     }
 
     if(updatePersonaDto.idiomasHabla){
-      persona.idiomasHabla = updatePersonaDto.idiomasHabla;
+      const idiomasHabla = updatePersonaDto.idiomasHabla.map((idiomaId) => this.idiomaService.findOne(idiomaId));
+      persona.idiomasHabla = idiomasHabla;
     }
 
-    if(updatePersonaDto.idiomasAprende){
-      persona.idiomasAprende = updatePersonaDto.idiomasAprende;
+    if(updatePersonaDto.idiomasHablaNivel){
+      const idiomasHablaNivel = updatePersonaDto.idiomasHablaNivel.map((detalleId) => this.detalleService.findOne(detalleId));
+      persona.idiomasHablaNivel = idiomasHablaNivel;
+    }
+
+    if(updatePersonaDto.idiomasAprende){ 
+      persona.idiomasAprende = updatePersonaDto.idiomasAprende.map((idiomaId) => this.idiomaService.findOne(idiomaId));
+    }
+
+    if(updatePersonaDto.idiomasAprendeNivel){
+      const idiomasAprendeNivel = updatePersonaDto.idiomasAprendeNivel.map((detalleId) => this.detalleService.findOne(detalleId));
+      persona.idiomasAprendeNivel = idiomasAprendeNivel;
     }
   }
 

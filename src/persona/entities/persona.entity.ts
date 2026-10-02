@@ -1,3 +1,4 @@
+import { Detalle } from "../../detalle/entities/detalle.entity"
 import { Idioma } from "../../idioma/entities/idioma.entity"
 import { Pais } from "../../pais/entities/pais.entity"
 
@@ -7,14 +8,10 @@ export class Persona {
     apellido: String
     alias: String
     email: String
-    paisResidencia: Pais
+    paisResidencia: Pais | undefined
     estado: boolean
-    idiomasHabla: Idioma[]
-    idiomasHablaNivel: String[]
-    idiomasAprende: Idioma[]
-    idiomasAprendeNivel: String[]
-    permisoConversacion: String
-    conversacionesActivasPermitidas: number
-    noMolestar: boolean
-    bloqueados: Persona[]
+    idiomasHabla: (Idioma | undefined)[]
+    idiomasHablaNivel: (Detalle | undefined)[]
+    idiomasAprende: (Idioma | undefined)[]
+    idiomasAprendeNivel: (Detalle | undefined)[]
 }

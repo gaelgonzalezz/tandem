@@ -11,10 +11,6 @@ class Persona {
     idiomasHablaNivel: String[]
     idiomasAprende: Idioma[]
     idiomasAprendeNivel: String[]
-    permisoConversacion: String
-    conversacionesActivasPermitidas: number
-    noMolestar: boolean
-    bloqueados: Persona[]
 }
 
 class Pais {
